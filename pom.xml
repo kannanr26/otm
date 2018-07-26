@@ -8,19 +8,23 @@
 	<artifactId>otm</artifactId>
 	<version>0.0.1</version>
 	<packaging>pom</packaging>
+	<properties>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+	</properties>
 
-<parent>
+	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.13.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-    <modules>
-	 
-        <module>otmcore</module>
+	<modules>
+
+		<module>otmcore</module>
 		<module>otmmailer</module>
-        <module>otmrest</module>
-        <module>otmmailvalidate</module>
-</modules>
+		<module>otmrest</module>
+		<module>otmmailvalidate</module>
+	</modules>
 
 </project>

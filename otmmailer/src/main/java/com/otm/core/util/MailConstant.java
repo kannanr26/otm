@@ -17,13 +17,13 @@ public class MailConstant {
 	@Value("${verifyURL}")
 	public  String verifyURL;
 	
-	@Value("${welcomesubject}")
+	/*@Value("${welcomesubject}")
 	public  String welcomeSUB;
 	
 	@Value("${welcomemessage}")
 	
 	public  String welcomeMSG;
-
+*/
 	public String getEMailFrom() {
 		return eMailFrom;
 	}
@@ -31,7 +31,7 @@ public class MailConstant {
 	public String getDomain() {
 		return this.domain;
 	}
-
+/*
 	public String getWelcomeSUB() {
 		return welcomeSUB;
 	}
@@ -39,7 +39,7 @@ public class MailConstant {
 	public String getWelcomeMSG() {
 		return welcomeMSG;
 	}
-
+*/
 	public void setEMailFrom(String eMailFrom) {
 		this.eMailFrom = eMailFrom;
 	}
@@ -47,7 +47,7 @@ public class MailConstant {
 	public void setDomain(String domain) {
 		this.domain = domain;
 	}
-
+/*
 	public void setWelcomeSUB(String welcomeSUB) {
 		this.welcomeSUB = welcomeSUB;
 	}
@@ -56,7 +56,7 @@ public class MailConstant {
 		this.welcomeMSG = welcomeMSG;
 	}
 
-	public String getVerifyURL() {
+*/	public String getVerifyURL() {
 		System.out.println(":::::"+this.verifyURL);
 		return this.verifyURL;
 	}

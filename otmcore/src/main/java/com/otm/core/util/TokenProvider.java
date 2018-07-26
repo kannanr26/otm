@@ -17,10 +17,10 @@ public class TokenProvider {
 	
 	public static  String mailerMessage;
 	
-  public static String getToken(String keyPass,String secure) {
+  public static String getToken(String keyPass,String secure,ValidationEnum enumValue) {
   	try {
   		System.out.println(" KEY :: & MESSAGE ::"+mailerKey+" :: &::"+mailerMessage);
-	    String key = mailerKey+keyPass+System.currentTimeMillis();
+	    String key = mailerKey+keyPass+enumValue.toString()+System.currentTimeMillis();
 	    String message = mailerMessage+secure+System.currentTimeMillis();
 	    
 	    Mac hasher = Mac.getInstance("HmacSHA256");
@@ -33,7 +33,7 @@ public class TokenProvider {
 	    
 	    // to base64
 	 //System.out.println(      DatatypeConverter.printBase64Binary(hash));
-	    return DatatypeConverter.printBase64Binary(hash);
+	    return  DatatypeConverter.printHexBinary(hash);
   	}
   	catch (NoSuchAlgorithmException e) {}
   	catch (InvalidKeyException e) {}

@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.otm.core.util.TokenProvider;
+import com.otm.core.util.ValidationEnum;
 
 @Entity
 public class VerificationToken {
@@ -39,16 +40,26 @@ public class VerificationToken {
 	@Column
 	private Date updatedDate;
 
+	@Column
+	private ValidationEnum validationEnum;
+	
+	public ValidationEnum getValidationEnum() {
+		return validationEnum;
+	}
+	public void setValidationEnum(ValidationEnum validationEnum) {
+		this.validationEnum = validationEnum;
+	}
 	public VerificationToken(){
 		
 	}
-	public VerificationToken( Long customerId,String status,String token ) {
+	public VerificationToken( Long customerId,String status,String token,ValidationEnum validationEnum ) {
 
 		this.customerId = customerId;
 		this.expiryDate = calculateExpiryDate(EXPIRATION);
 		this.createdDate = new Date(Calendar.getInstance().getTime().getTime());
 		this.status = status;
 		this.token =token; 	
+		this.validationEnum=validationEnum;
 		
 	}
 	public Long getId() {

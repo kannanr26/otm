@@ -29,6 +29,7 @@ import com.otm.core.repo.MailRepository;
 import com.otm.core.repo.MailVerificationRepository;
 import com.otm.core.util.Constant;
 import com.otm.core.util.TokenProvider;
+import com.otm.core.util.ValidationEnum;
 
 @Service
 public class MailImpl implements MailService {
@@ -45,20 +46,19 @@ public class MailImpl implements MailService {
 
 	@Override
 
-	public void sendMail(Customer customer) {
+	public void sendWelcomeMail(Customer customer) {
 
 		try {
-
-			String token = TokenProvider.getToken(customer.getCustomerDetail().getEMail(),customer.getCustomerDetail().getFirstName());
-
-			VerificationToken verifyToken = new VerificationToken(customer.getId(), Constant.eMail_pending, token);
+			String token = TokenProvider.getToken(customer.getCustomerDetail().getEMail(),customer.getCustomerDetail().getLastName(),ValidationEnum.WELCOMEMAILVALIDATION);
+			customer.setToken(token);
+			
+			VerificationToken verifyToken = new VerificationToken(customer.getId(), Constant.pending, customer.getToken(),ValidationEnum.WELCOMEMAILVALIDATION);
 
 			verifyMailRepository.save(verifyToken);
 
 			MailDetail mailDetail = genrateMailDetail(customer);
 			repository.save(mailDetail);
-			System.out.println("Token:::" + token);
-			// sendWelcomeMail(mailDetail, customer, token);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,22 +69,29 @@ public class MailImpl implements MailService {
 	private MailDetail genrateMailDetail(Customer customer) {
 
 		MailDetail mailDetail = new MailDetail();
-		// mailDetail.setUserId(customer.getUserId());
+		 mailDetail.setUserId(customer.getId());
 		mailDetail.setUserName(
 				customer.getCustomerDetail().getFirstName() + " " + customer.getCustomerDetail().getLastName());
 		mailDetail.setTo(customer.getCustomerDetail().getEMail());
-		mailDetail.setSend(true);
+		mailDetail.setSend(false);
 		mailDetail.setSubject(constant.welcomeSUB);
 		return mailDetail;
 	}
 
 	@Override
-	public Status verify(String token) {
+	public Status verify(String token,Long customerId) {
 		Status status = new Status();
 		VerificationToken verificationToken = verifyMailRepository.findByToken(token);
 		if (verificationToken != null) {
 
 			System.out.println(" CUST_ ID" + verificationToken.getCustomerId());
+			if( customerId!=verificationToken.getCustomerId()) {
+				 status.setStatus(Constant.invalid);
+				 return status;
+			}
+			if( ValidationEnum.WELCOMEMAILVALIDATION!=verificationToken.getValidationEnum()) {			 
+				 return status;
+			}
 			Customer customer = customerService.findByCustomerId(verificationToken.getCustomerId());
 			System.out.println(" :::::: " + customer.getCustomerDetail().getFirstName());
 			status.setUser(customer.getCustomerDetail().getFirstName() + customer.getCustomerDetail().getLastName());
@@ -92,22 +99,65 @@ public class MailImpl implements MailService {
 
 			if (verificationToken.getExpiryDate().after(new Date(Calendar.getInstance().getTime().getTime()))) {
 
-				verificationToken.setStatus(Constant.eMail_verified);
+				verificationToken.setStatus(Constant.verified);
 				verificationToken.setUpdatedDate(new Date(Calendar.getInstance().getTime().getTime()));
 				verifyMailRepository.save(verificationToken);
 				customer.setActive(true);
-				status.setStatus(Constant.eMail_verified);
+				status.setStatus(Constant.registrationVerified);
 				return status;
 
 			} else if (verificationToken.getExpiryDate().before(new Date(Calendar.getInstance().getTime().getTime()))) {
-				verificationToken.setStatus(Constant.eMail_expired);
+				verificationToken.setStatus(Constant.expired);
 				verificationToken.setUpdatedDate(new Date(Calendar.getInstance().getTime().getTime()));
-				status.setStatus(Constant.eMail_expired);
+				status.setStatus(Constant.expired);
 				return status;
 
 			}
 		}
-		status.setStatus(Constant.eMail_tokenError);
+		status.setStatus(Constant.tokenError);
+		return status;
+
+	}
+
+
+	@Override
+	public Status verifyPassword(String token,Customer customer) {
+		Status status = new Status();
+		VerificationToken verificationToken = verifyMailRepository.findByToken(token);
+		if (verificationToken != null) {
+
+			System.out.println(" CUST_ ID" + verificationToken.getCustomerId());
+			if( customer.getId()!=verificationToken.getCustomerId()) {
+				 status.setStatus(Constant.invalid);
+				 return status;
+			}
+			if( ValidationEnum.RESETPASSWORDVALIDATION!=verificationToken.getValidationEnum()) {
+				 
+				 return status;
+			}
+			
+		//	Customer customer = customerService.findByCustomerId(verificationToken.getCustomerId());
+			System.out.println(" :::::: " + customer.getCustomerDetail().getFirstName());
+			status.setUser(customer.getCustomerDetail().getFirstName() + customer.getCustomerDetail().getLastName());
+
+			if (verificationToken.getExpiryDate().after(new Date(Calendar.getInstance().getTime().getTime()))) {
+
+				verificationToken.setStatus(Constant.verified);
+				verificationToken.setUpdatedDate(new Date(Calendar.getInstance().getTime().getTime()));
+				verifyMailRepository.save(verificationToken);
+				customer.setActive(true);
+				status.setStatus(Constant.resetPasswordVerified);
+				return status;
+
+			} else if (verificationToken.getExpiryDate().before(new Date(Calendar.getInstance().getTime().getTime()))) {
+				verificationToken.setStatus(Constant.expired);
+				verificationToken.setUpdatedDate(new Date(Calendar.getInstance().getTime().getTime()));
+				status.setStatus(Constant.expired);
+				return status;
+
+			}
+			}
+		status.setStatus(Constant.tokenError);
 		return status;
 
 	}

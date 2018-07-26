@@ -13,23 +13,46 @@ public class MailThread implements Runnable {
 
 	private MailDetail mailDetail;
 
-	public MailThread(MailDetail mailDetail) {
+	public MailThread(MailDetail mailDetail, MailerService mailerService, MailService mailService, CustomerService customerService) {
 		this.mailDetail=mailDetail;
+		this.mailerService=mailerService;
+		this.mailService=mailService;
+		this.customerService=customerService;
 	}
 
-	@Autowired
-	CustomerService customerService;
-	@Autowired
-	MailService mailService;
-	@Autowired
-	MailerService mailerService;
+//	@Autowired
+	private CustomerService customerService;
+	
+	private MailService mailService;
+	
+	private MailerService mailerService;
 	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		boolean isSend=false;
+		if(customerService==null) {
+			System.out.println(" customerService is null");
+			return;
+		}
+		if(mailDetail==null) {
+			System.out.println(" mailDetail is null");
+			return;
+		}
+		if(mailService==null) {
+			System.out.println(" mailService is null");
+			return;
+		}
+		System.out.println("this.mailDetail.getUserId() :"+this.mailDetail.getUserId());
 		Customer customer=customerService.findByCustomerId(this.mailDetail.getUserId());
 		 VerificationToken verifyToken=mailService.getToken(this.mailDetail.getUserId());
+		 if(customer==null) {
+				System.out.println(" customer is null");
+				return;
+			}
+			if(verifyToken==null) {
+				System.out.println(" verifyToken is null");return;
+			}
 		 try {
 			mailerService.sendWelcomeMail(this.mailDetail, customer, verifyToken.getToken());
 			 this.mailDetail.setSend(true);

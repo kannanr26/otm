@@ -11,7 +11,8 @@ public interface CustomerService {
 
 	Customer save(Customer customer);
 	Customer findByCustomerUserId(String userId);
+	boolean updatePassword(String password,Long id);
 	Customer findByCustomerId(Long id);
-	void delete(long id);
+	boolean delete(long id);
 
 }

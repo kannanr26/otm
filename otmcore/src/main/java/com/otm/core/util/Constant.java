@@ -7,10 +7,13 @@ import org.springframework.stereotype.Service;
 public class Constant {
 	
 	
-	public static String eMail_pending="PENDING";
-	public static String eMail_verified="VERIFIED";
-	public static String eMail_expired="EXPIRED";
-	public static String eMail_tokenError="TOKENERROR";
+	public static String pending="PENDING";
+	public static String registrationVerified="REG_VERIFIED";
+	public static String resetPasswordVerified="PWD_VERIFIED";
+	public static String expired="EXPIRED";
+	public static String invalid="INVALID";
+	public static String tokenError="TOKENERROR";
+	public static String verified="VERIFIED";
 	
 		@Value("${welcomesubject}")
 	public  String welcomeSUB;

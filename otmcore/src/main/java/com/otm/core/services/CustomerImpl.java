@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.otm.core.model.Customer;
 import com.otm.core.repo.CustomerRepository;
 import com.otm.core.util.TokenProvider;
+import com.otm.core.util.ValidationEnum;
 
 
 @Service
@@ -32,19 +33,37 @@ public List<Customer> getAllCustomer() {
 
 @Override
 public Customer save(Customer customer) {
-	String token = TokenProvider.getToken(customer.getCustomerDetail().getEMail(),customer.getCustomerDetail().getLastName());
-	customer.setToken(token);
 	repository.save(customer);
 	
-	mailService.sendMail(customer);
+	mailService.sendWelcomeMail(customer);
 	return customer;
 	
 }
 
 @Override
-public void delete(long id) {
+public boolean updatePassword(String password,Long id) {
+	// 
+	try{
+	Customer customer=repository.findById(id);
+	customer.setPassword(password);
+	repository.save(customer);
+	return true;
+	}catch(Exception e) {
+		return false;
+	}
+}
+
+
+@Override
+public boolean delete(long id) {
 	// TODO Auto-generated method stub
-	repository.delete(id);
+	try{
+		repository.delete(id);
+		return true;
+	}catch(Exception e) {
+		return false;
+	}
+	
 }
 @Override
 public Customer findByCustomerUserId(String userId) {

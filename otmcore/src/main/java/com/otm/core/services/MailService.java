@@ -9,9 +9,10 @@ import com.otm.core.model.Status;
 import com.otm.core.model.VerificationToken;
 
 public interface MailService {
-public void  sendMail(Customer customer);
+public void  sendWelcomeMail(Customer customer);
 
-public  Status verify(String token) ;
+public  Status verify(String token,Long customerId) ;
+public  Status verifyPassword(String token,Customer customerId) ;
 public List<MailDetail> getUnSendMail();
 public VerificationToken getToken(Long CustomerId);
 
