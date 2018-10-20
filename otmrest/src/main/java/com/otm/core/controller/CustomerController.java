@@ -78,9 +78,14 @@ System.out.println(" customershow  %%%%% id= "+id);
 				customerDB.setFoodHabit(customer.getFoodHabit());
 				customerDB.setFaceBook(customer.getFaceBook());
 				customerDB.setWmReligion(customer.getWmReligion());
-				customerDB.setRelocation(customer.isRelocation());
-				customerDB.setResidenceDetails(customer.getResidenceDetails());
-				customerDB.setWorklocationDetails(customer.getWorklocationDetails());
+				customerDB.setRelocation(customer.getRelocation());
+				customerDB.setResidencalCity(customer.getResidencalCity());
+				customerDB.setResidencalCountry(customer.getResidencalCountry());
+				customerDB.setResidencalDetails(customer.getResidencalDetails());
+				customerDB.setWorkPlaceCity(customer.getWorkPlaceCity());
+				customerDB.setWorkPlaceCountry(customer.getWorkPlaceCountry());
+				customerDB.setWorkPlaceDetails(customer.getWorkPlaceDetails());
+				
 				customerDB.setWishToSay(customer.getWishToSay());
 				customerDB.setContactName(customer.getContactName());
 				customerDB.setContactRelation(customer.getContactRelation());

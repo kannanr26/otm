@@ -69,14 +69,14 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 	@Column(name = "wmReligion")
 	private String wmReligion;
 	
-	@Column(name = "residenceDetails")
+/*	@Column(name = "residenceDetails")
 	private String residenceDetails;
 
 	@Column(name = "worklocationDetails")
 	private String worklocationDetails;
-
+*/
 	@Column(name = "relocation")
-	private boolean relocation;
+	private String relocation;
 
 	@Column(name = "contactRelation")
 	private String contactRelation;
@@ -126,15 +126,21 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 	private String password;
 
 	
-
+	@Column(name = "residencalDetails")
     private String residencalDetails;
+	@Column(name = "residencalCity")
     private String  residencalCity;
+	@Column(name = "residencalCountry")
     private String  residencalCountry;
+	@Column(name = "workPlaceDetails")
     private String  workPlaceDetails;
+	@Column(name = "workPlaceCity")
     private String  workPlaceCity;
+	@Column(name = "workPlaceCountry")
     private String workPlaceCountry;
+    
 	public String getResidencalDetails() {
-		return this.residenceDetails.split("\\:")[2];
+		return this.residencalDetails;
 	}
 
 	public void setResidencalDetails(String residencalDetails) {
@@ -142,15 +148,15 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 	}
 
 	public String getResidencalCity() {
-		return this.residenceDetails.split("\\:")[0];
-	}
+		return this.residencalCity;
+		}
 
 	public void setResidencalCity(String residencalCity) {
 		this.residencalCity = residencalCity;
 	}
 
 	public String getResidencalCountry() {
-		return this.residenceDetails.split("\\:")[1];
+		return this.residencalCountry;
 	}
 
 	public void setResidencalCountry(String residencalCountry) {
@@ -158,7 +164,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 	}
 
 	public String getWorkPlaceDetails() {
-		return this.worklocationDetails.split("\\:")[2];
+		return this.workPlaceDetails;
 	}
 
 	public void setWorkPlaceDetails(String workPlaceDetails) {
@@ -166,7 +172,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 	}
 
 	public String getWorkPlaceCity() {
-		return  this.worklocationDetails.split("\\:")[0];
+		return  this.workPlaceCity;
 	}
 
 	public void setWorkPlaceCity(String workPlaceCity) {
@@ -174,7 +180,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 	}
 
 	public String getWorkPlaceCountry() {
-		return  this.worklocationDetails.split("\\:")[1];
+		return  this.workPlaceCountry;
 	}
 
 	public void setWorkPlaceCountry(String workPlaceCountry) {
@@ -247,7 +253,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 	public void setWmReligion(String wmReligion) {
 		this.wmReligion = wmReligion;
 	}
-
+/*
 	public String getResidenceDetails() {
 		return this.residenceDetails = getResidencalCity()+"\\:"+getResidencalCountry()+"\\:"+getResidencalDetails();
 	}
@@ -261,14 +267,15 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 	}
 
 	public void setWorklocationDetails(String worklocationDetails) {
+		this.
 		this.worklocationDetails =this.workPlaceCity+"\\:"+this.workPlaceCountry+"\\:"+this.workPlaceDetails;
 	}
-
-	public boolean isRelocation() {
+*/
+	public String getRelocation() {
 		return relocation;
 	}
 
-	public void setRelocation(boolean relocation) {
+	public void setRelocation(String relocation) {
 		this.relocation = relocation;
 	}
 
