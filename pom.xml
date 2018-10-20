@@ -24,7 +24,7 @@
 		<module>otmcore</module>
 		<module>otmmailer</module>
 		<module>otmrest</module>
-		<module>otmmailvalidate</module>
+		<module>otmmvc</module>
 	</modules>
 
 </project>

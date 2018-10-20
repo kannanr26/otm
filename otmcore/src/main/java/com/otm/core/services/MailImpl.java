@@ -1,30 +1,16 @@
 package com.otm.core.services;
 
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import com.otm.core.model.Customer;
 import com.otm.core.model.MailDetail;
-import com.otm.core.model.Status;
 import com.otm.core.model.VerificationToken;
+import com.otm.core.model.response.Status;
 import com.otm.core.repo.MailRepository;
 import com.otm.core.repo.MailVerificationRepository;
 import com.otm.core.util.Constant;
@@ -49,7 +35,7 @@ public class MailImpl implements MailService {
 	public void sendWelcomeMail(Customer customer) {
 
 		try {
-			String token = TokenProvider.getToken(customer.getCustomerDetail().getEMail(),customer.getCustomerDetail().getLastName(),ValidationEnum.WELCOMEMAILVALIDATION);
+			String token = TokenProvider.getToken(customer.getEMail(),customer.getLastName(),ValidationEnum.WELCOMEMAILVALIDATION);
 			customer.setToken(token);
 			
 			VerificationToken verifyToken = new VerificationToken(customer.getId(), Constant.pending, customer.getToken(),ValidationEnum.WELCOMEMAILVALIDATION);
@@ -70,9 +56,9 @@ public class MailImpl implements MailService {
 
 		MailDetail mailDetail = new MailDetail();
 		 mailDetail.setUserId(customer.getId());
-		mailDetail.setUserName(
-				customer.getCustomerDetail().getFirstName() + " " + customer.getCustomerDetail().getLastName());
-		mailDetail.setTo(customer.getCustomerDetail().getEMail());
+		mailDetail.setUserName(customer.getContactName());
+				//customer.getFirstName() + " " + customer.getLastName());
+		mailDetail.setTo(customer.getEMail());
 		mailDetail.setSend(false);
 		mailDetail.setSubject(constant.welcomeSUB);
 		return mailDetail;
@@ -93,9 +79,9 @@ public class MailImpl implements MailService {
 				 return status;
 			}
 			Customer customer = customerService.findByCustomerId(verificationToken.getCustomerId());
-			System.out.println(" :::::: " + customer.getCustomerDetail().getFirstName());
-			status.setUser(customer.getCustomerDetail().getFirstName() + customer.getCustomerDetail().getLastName());
-			status.seteMail(customer.getCustomerDetail().getEMail());
+			System.out.println(" :::::: " + customer.getFirstName());
+			status.setUser(customer.getFirstName() + customer.getLastName());
+			status.seteMail(customer.getEMail());
 
 			if (verificationToken.getExpiryDate().after(new Date(Calendar.getInstance().getTime().getTime()))) {
 
@@ -137,8 +123,8 @@ public class MailImpl implements MailService {
 			}
 			
 		//	Customer customer = customerService.findByCustomerId(verificationToken.getCustomerId());
-			System.out.println(" :::::: " + customer.getCustomerDetail().getFirstName());
-			status.setUser(customer.getCustomerDetail().getFirstName() + customer.getCustomerDetail().getLastName());
+			System.out.println(" :::::: " + customer.getFirstName());
+			status.setUser(customer.getFirstName() + customer.getLastName());
 
 			if (verificationToken.getExpiryDate().after(new Date(Calendar.getInstance().getTime().getTime()))) {
 

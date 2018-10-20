@@ -30,14 +30,17 @@ public class Refference implements Serializable {
 		private String name;
 		
 		@Column
-		private String relation;
+		private String relationship;
 		
+
+		@Column
+		private String details;
 		
-		 	@ManyToOne(fetch = FetchType.LAZY)
+/*		 	@ManyToOne(fetch = FetchType.LAZY)
 		    @JoinColumn(name = "customerId")
 			@JsonBackReference
 		    private Customer customer;
-
+*/
 
 			public long getRefferenceId() {
 				return refferenceId;
@@ -59,15 +62,15 @@ public class Refference implements Serializable {
 			}
 
 
-			public String getRelation() {
-				return relation;
+			public String getRelationship() {
+				return relationship;
 			}
 
 
-			public void setRelation(String relation) {
-				this.relation = relation;
+			public void setRelationship(String relationship) {
+				this.relationship = relationship;
 			}
-
+/*
 
 			public Customer getCustomer() {
 				return customer;
@@ -77,9 +80,17 @@ public class Refference implements Serializable {
 			public void setCustomer(Customer customer) {
 				this.customer = customer;
 			}
+*/
 
-
-			public static long getSerialversionuid() {
-				return serialVersionUID;
+			public String getDetails() {
+				return details;
 			}
+
+
+			public void setDetails(String details) {
+				this.details = details;
+			}
+
+
+			
 }

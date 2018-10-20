@@ -1,4 +1,4 @@
-package com.otm.core.model;
+package com.otm.core.model.response;
 
 import java.io.Serializable;
 import java.util.ArrayList;

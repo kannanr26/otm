@@ -18,7 +18,7 @@ import com.otm.core.services.CustomerService;
 import com.otm.core.services.MailService;
 import com.otm.core.util.Constant;
 import com.otm.core.model.Customer;
-import com.otm.core.model.Status;
+import com.otm.core.model.response.Status;
 
 @RestController
 // @RequestMapping(value="OTM")
@@ -68,7 +68,7 @@ public class ValidationController {
 		
 		model.addAttribute("msg"," Reset password token verified");
 		
-		return "redirect:http://localhost:8080\\otmweb\\resetpassword\\"+id+"\\"+customer.getCustomerDetail().getFirstName();
+		return "redirect:http://localhost:8080\\otmweb\\resetpassword\\"+id+"\\"+customer.getUserId();
 	}
 	
 	

@@ -10,7 +10,6 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -48,7 +47,7 @@ public class MailerImpl implements MailerService {
 	public void sendWelcomeMail(MailDetail mailDetail, Customer customer, String token) throws Exception {
 
 		// Map<String, Object> model = new HashMap<String, Object>();
-		String Name = customer.getCustomerDetail().getFirstName() + customer.getCustomerDetail().getLastName();
+		String Name = customer.getFirstName() + customer.getLastName();
 		String tokenURL = mailConstant.getDomain() + mailConstant.getVerifyURL() + token;
 		Map<String, Object> model = new HashMap<>();
 		model.put("contentmessage", this.welcomeMSG);
